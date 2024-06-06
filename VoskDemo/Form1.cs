@@ -17,6 +17,7 @@ namespace VoskDemo
 {
     public partial class Form1 : Form
     {
+        //本实例只能在64位平台 any cpu 不行
         public Form1()
         {
             InitializeComponent();
@@ -26,15 +27,22 @@ namespace VoskDemo
         {
             VoskTest();
         }
+        
         //WasapiCapture wasapi = new WasapiCapture();//麦克风
         //WaveInEvent wasapi = new WaveInEvent();//麦克风
-        WasapiLoopbackCapture wasapi = new WasapiLoopbackCapture();  //扬声器
         
+        WasapiLoopbackCapture wasapi = new WasapiLoopbackCapture();  //扬声器
+
         private void VoskTest()
         {
+            //==
+            IEnumerable<MMDevice> speakDevices = new MMDeviceEnumerator().EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active).ToArray(); //获取所有扬声器设备
+            //IEnumerable<MMDevice> speakDevices = new MMDeviceEnumerator().EnumerateAudioEndPoints(DataFlow.All, DeviceState.Active).ToArray(); //获取所有扬声器、麦克风设备
+            MMDevice device = speakDevices.ToList()[0];
+            //==
             //MMDevice device = WasapiLoopbackCapture.GetDefaultLoopbackCaptureDevice();
             //WasapiLoopbackCapture wasapi1 = new WasapiLoopbackCapture(device);
-            
+
             Task.Run(() => {
                 
                 wasapi.WaveFormat = new NAudio.Wave.WaveFormat(48000, 16, 1);
