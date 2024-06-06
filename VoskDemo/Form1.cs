@@ -27,9 +27,14 @@ namespace VoskDemo
             VoskTest();
         }
         //WasapiCapture wasapi = new WasapiCapture();//麦克风
+        //WaveInEvent wasapi = new WaveInEvent();//麦克风
         WasapiLoopbackCapture wasapi = new WasapiLoopbackCapture();  //扬声器
+        
         private void VoskTest()
         {
+            //MMDevice device = WasapiLoopbackCapture.GetDefaultLoopbackCaptureDevice();
+            //WasapiLoopbackCapture wasapi1 = new WasapiLoopbackCapture(device);
+            
             Task.Run(() => {
                 
                 wasapi.WaveFormat = new NAudio.Wave.WaveFormat(48000, 16, 1);
